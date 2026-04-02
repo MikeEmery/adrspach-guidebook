@@ -49,7 +49,7 @@ export default function Navbar() {
                 href="/profile"
                 className="hover:text-amber-300 transition"
               >
-                My Ticks
+                Profile
               </Link>
               <Link
                 href="/admin"
@@ -129,7 +129,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="hover:text-amber-300"
               >
-                My Ticks
+                Profile
               </Link>
               <Link
                 href="/admin"

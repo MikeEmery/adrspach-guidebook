@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import TopoRenderer from "./TopoRenderer";
+import type { TopoDrawingData } from "@/lib/topo-types";
 
 type GalleryImage = {
   id: string;
   url: string;
   type: string;
+  drawingData?: TopoDrawingData;
 };
 
 export default function ImageGallery({
@@ -53,10 +56,10 @@ export default function ImageGallery({
       {/* Thumbnail grid */}
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-3">
-          <h2 className="text-sm font-medium text-stone-500 uppercase tracking-wide">
+          <h2 className="text-sm font-medium text-muted uppercase tracking-wide">
             Photos
           </h2>
-          <span className="text-xs text-stone-400">
+          <span className="text-xs text-muted">
             ({images.length}) — tap to enlarge
           </span>
         </div>
@@ -65,15 +68,26 @@ export default function ImageGallery({
             <button
               key={img.id}
               onClick={() => setLightboxIndex(i)}
-              className="relative aspect-[4/3] rounded-lg overflow-hidden border border-stone-200 dark:border-stone-700 hover:border-red-400 dark:hover:border-red-500 hover:shadow-md transition group"
+              className="relative aspect-[4/3] rounded-lg overflow-hidden border border-card-border hover:border-amber-400 dark:hover:border-amber-500 hover:shadow-md transition group"
             >
-              <img
-                src={img.url}
-                alt={`${wallName} ${img.type} ${i + 1}`}
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-200"
-              />
+              {img.drawingData ? (
+                <TopoRenderer
+                  imageUrl={img.url}
+                  drawingData={img.drawingData}
+                  alt={`${wallName} ${img.type} ${i + 1}`}
+                />
+              ) : (
+                <img
+                  src={img.url}
+                  alt={`${wallName} ${img.type} ${i + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-200"
+                />
+              )}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent px-1.5 py-1">
-                <span className="text-white text-[10px]">{img.type}</span>
+                <span className="text-white text-[10px]">
+                  {img.type}
+                  {img.drawingData ? " (annotated)" : ""}
+                </span>
               </div>
             </button>
           ))}
@@ -116,13 +130,25 @@ export default function ImageGallery({
             </button>
           )}
 
-          {/* Image */}
-          <img
-            src={images[lightboxIndex].url}
-            alt={`${wallName} ${images[lightboxIndex].type}`}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded"
+          {/* Image (with optional topo overlay) */}
+          <div
+            className="max-h-[90vh] max-w-[90vw] relative"
             onClick={(e) => e.stopPropagation()}
-          />
+          >
+            {images[lightboxIndex].drawingData ? (
+              <TopoRenderer
+                imageUrl={images[lightboxIndex].url}
+                drawingData={images[lightboxIndex].drawingData!}
+                alt={`${wallName} ${images[lightboxIndex].type}`}
+              />
+            ) : (
+              <img
+                src={images[lightboxIndex].url}
+                alt={`${wallName} ${images[lightboxIndex].type}`}
+                className="max-h-[90vh] max-w-[90vw] object-contain rounded"
+              />
+            )}
+          </div>
 
           {/* Next button */}
           {images.length > 1 && (

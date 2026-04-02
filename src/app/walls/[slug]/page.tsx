@@ -48,6 +48,11 @@ export default async function WallPage({
     .eq("wall_id", wall.id)
     .order("sort_order");
 
+  const { data: topoMaps } = await supabase
+    .from("topo_maps")
+    .select("wall_image_id, drawing_data")
+    .eq("wall_id", wall.id);
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
@@ -78,11 +83,15 @@ export default async function WallPage({
               if (a.image_type === b.image_type) return a.sort_order - b.sort_order;
               return a.image_type === "overview" ? -1 : 1;
             })
-            .map((img) => ({
-              id: img.id,
-              url: img.image_url,
-              type: img.image_type,
-            }))}
+            .map((img) => {
+              const topo = topoMaps?.find((t) => t.wall_image_id === img.id);
+              return {
+                id: img.id,
+                url: img.image_url,
+                type: img.image_type,
+                drawingData: topo?.drawing_data ?? undefined,
+              };
+            })}
           wallName={wall.name}
         />
       )}

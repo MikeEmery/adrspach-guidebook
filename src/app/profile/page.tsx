@@ -2,8 +2,9 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import GradeBadge from "@/components/GradeBadge";
+import ProfileHeader from "@/components/ProfileHeader";
 
-export const metadata = { title: "My Ticks - Little Adrspach" };
+export const metadata = { title: "Profile - Little Adrspach" };
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -43,10 +44,11 @@ export default async function ProfilePage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-2">
-        {profile?.display_name || "Climber"}
-      </h1>
-      <p className="text-muted mb-8">{user.email}</p>
+      <ProfileHeader
+        userId={user.id}
+        displayName={profile?.display_name || "Climber"}
+        email={user.email || ""}
+      />
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8 max-w-md">
