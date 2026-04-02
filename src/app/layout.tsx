@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Nunito, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { BreadcrumbProvider } from "@/components/BreadcrumbContext";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -36,6 +37,7 @@ export default function RootLayout({
       className={`${nunito.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <BreadcrumbProvider>
         <Navbar />
         <main className="flex-1">{children}</main>
         <footer className="bg-[#2c1810] text-[#a69585] text-center text-sm py-6">
@@ -44,6 +46,7 @@ export default function RootLayout({
             <p>2025 Edition &middot; Paddle in, climb up, enjoy the rock</p>
           </div>
         </footer>
+        </BreadcrumbProvider>
       </body>
     </html>
   );

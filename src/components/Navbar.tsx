@@ -5,10 +5,12 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import QuickTick from "./QuickTick";
+import { useBreadcrumbs } from "./BreadcrumbContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const { crumbs } = useBreadcrumbs();
   const supabase = createClient();
 
   useEffect(() => {
@@ -28,8 +30,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#2c1810] text-[#f5ebe0] shadow-lg">
-      <div className="max-w-5xl mx-auto px-4 flex items-center justify-between h-14">
+    <nav className={`sticky top-0 z-50 bg-[#2c1810] text-[#f5ebe0] shadow-lg`}>
+      <div className="max-w-5xl mx-auto px-4 flex items-center justify-between h-12">
         <Link href="/" className="font-extrabold text-lg tracking-tight flex items-center gap-2">
           <span className="text-amber-400">&#9650;</span>
           Little Adrspach
@@ -158,6 +160,27 @@ export default function Navbar() {
               Sign In
             </Link>
           )}
+        </div>
+      )}
+
+      {/* Breadcrumb */}
+      {crumbs.length > 0 && (
+        <div id="breadcrumb" className="max-w-5xl mx-auto px-4 pb-6 flex items-center gap-3 text-sm font-medium mb-2">
+            {crumbs.map((crumb, i) => (
+              <span key={i} className="flex items-center gap-3">
+                {i > 0 && <span className="text-[#6b5c50]">/</span>}
+                {crumb.href ? (
+                  <Link
+                    href={crumb.href}
+                    className="text-[#c4a882] hover:text-amber-300 transition"
+                  >
+                    {crumb.label}
+                  </Link>
+                ) : (
+                  <span className="text-[#f5ebe0]">{crumb.label}</span>
+                )}
+              </span>
+            ))}
         </div>
       )}
     </nav>

@@ -3,7 +3,9 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ProtectionBadge from "@/components/ProtectionBadge";
 import GradeBadge from "@/components/GradeBadge";
+import Breadcrumb from "@/components/Breadcrumb";
 import TickButton from "@/components/TickButton";
+import ProjectButton from "@/components/ProjectButton";
 import CommentSection from "@/components/CommentSection";
 import { ydsToFrench } from "@/lib/grade-convert";
 
@@ -52,8 +54,9 @@ export default async function RoutePage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Get user's ticks for this route
+  // Get user's ticks and project status for this route
   let userTicks: { id: string; ticked_at: string; style: string | null }[] = [];
+  let isProject = false;
   if (user) {
     const { data } = await supabase
       .from("ticks")
@@ -62,6 +65,14 @@ export default async function RoutePage({
       .eq("user_id", user.id)
       .order("ticked_at", { ascending: false });
     userTicks = data || [];
+
+    const { data: proj } = await supabase
+      .from("projects")
+      .select("id")
+      .eq("route_id", id)
+      .eq("user_id", user.id)
+      .maybeSingle();
+    isProject = !!proj;
   }
 
   // Get comments
@@ -81,23 +92,15 @@ export default async function RoutePage({
       : null;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      {/* Breadcrumb */}
-      <nav className="text-sm text-muted mb-4 font-medium">
-        <Link href="/" className="hover:text-amber-700 dark:hover:text-amber-400 transition">
-          Home
-        </Link>
-        {" / "}
-        <Link
-          href={`/walls/${wall.slug}`}
-          className="hover:text-amber-700 dark:hover:text-amber-400 transition"
-        >
-          {wall.name}
-        </Link>
-        {" / "}
-        <span className="text-foreground">{route.name}</span>
-      </nav>
-
+    <>
+      <Breadcrumb
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: wall.name, href: `/walls/${wall.slug}` },
+          { label: route.name },
+        ]}
+      />
+      <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Route header */}
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
@@ -117,6 +120,15 @@ export default async function RoutePage({
             </div>
           )}
         </div>
+      </div>
+
+      {/* Project button */}
+      <div className="mb-4">
+        <ProjectButton
+          routeId={route.id}
+          userId={user?.id || null}
+          isProject={isProject}
+        />
       </div>
 
       {/* Route details */}
@@ -187,5 +199,6 @@ export default async function RoutePage({
         initialComments={comments || []}
       />
     </div>
+    </>
   );
 }

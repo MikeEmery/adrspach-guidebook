@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ProtectionBadge from "@/components/ProtectionBadge";
 import GradeBadge from "@/components/GradeBadge";
+import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
 
 export async function generateMetadata({
@@ -54,20 +55,15 @@ export default async function WallPage({
     .eq("wall_id", wall.id);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      {/* Breadcrumb */}
-      <nav className="text-sm text-muted mb-4 font-medium">
-        <Link href="/" className="hover:text-amber-700 dark:hover:text-amber-400 transition">
-          Home
-        </Link>
-        {" / "}
-        <Link href="/walls" className="hover:text-amber-700 dark:hover:text-amber-400 transition">
-          Walls
-        </Link>
-        {" / "}
-        <span className="text-foreground">{wall.name}</span>
-      </nav>
-
+    <>
+      <Breadcrumb
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Walls", href: "/walls" },
+          { label: wall.name },
+        ]}
+      />
+      <div className="max-w-5xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-extrabold mb-2">{wall.name}</h1>
       {wall.description && (
         <p className="text-muted mb-6 leading-relaxed">
@@ -147,5 +143,6 @@ export default async function WallPage({
         </table>
       </div>
     </div>
+    </>
   );
 }

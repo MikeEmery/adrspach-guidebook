@@ -160,6 +160,26 @@ export type Database = {
           created_at?: string;
         };
       };
+      projects: {
+        Row: {
+          id: string;
+          user_id: string;
+          route_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          route_id: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          route_id?: string;
+          created_at?: string;
+        };
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -174,6 +194,8 @@ export type WallImage = Database["public"]["Tables"]["wall_images"]["Row"];
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type Tick = Database["public"]["Tables"]["ticks"]["Row"];
 export type Comment = Database["public"]["Tables"]["comments"]["Row"];
+
+export type Project = Database["public"]["Tables"]["projects"]["Row"];
 
 export type RouteWithWall = Route & { walls: Wall };
 export type CommentWithProfile = Comment & { profiles: Profile };
