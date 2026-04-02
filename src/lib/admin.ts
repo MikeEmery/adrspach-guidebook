@@ -1,7 +1,7 @@
-export function isAdmin(email: string | undefined): boolean {
-  if (!email) return false;
-  const adminEmails = (process.env.ADMIN_EMAILS || "")
+export function isAdmin(identifier: string | undefined | null): boolean {
+  if (!identifier) return false;
+  const admins = (process.env.ADMIN_USERS || process.env.ADMIN_EMAILS || "")
     .split(",")
     .map((e) => e.trim().toLowerCase());
-  return adminEmails.includes(email.toLowerCase());
+  return admins.includes(identifier.toLowerCase());
 }

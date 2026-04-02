@@ -11,7 +11,7 @@ export default async function TopoEditorPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || !isAdmin(user.email)) redirect("/");
+  if (!user || !isAdmin(user.email || user.phone)) redirect("/");
 
   const { data: walls } = await supabase
     .from("walls")

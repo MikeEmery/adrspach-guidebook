@@ -47,7 +47,7 @@ export default async function ProfilePage() {
       <ProfileHeader
         userId={user.id}
         displayName={profile?.display_name || "Climber"}
-        email={user.email || ""}
+        email={user.email || user.phone || ""}
       />
 
       {/* Stats */}
