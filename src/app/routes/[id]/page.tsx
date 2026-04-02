@@ -82,14 +82,14 @@ export default async function RoutePage({
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <nav className="text-sm text-stone-500 mb-4">
-        <Link href="/" className="hover:text-stone-700 dark:hover:text-stone-300">
+      <nav className="text-sm text-muted mb-4 font-medium">
+        <Link href="/" className="hover:text-amber-700 dark:hover:text-amber-400 transition">
           Home
         </Link>
         {" / "}
         <Link
           href={`/walls/${wall.slug}`}
-          className="hover:text-stone-700 dark:hover:text-stone-300"
+          className="hover:text-amber-700 dark:hover:text-amber-400 transition"
         >
           {wall.name}
         </Link>
@@ -101,17 +101,17 @@ export default async function RoutePage({
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-stone-400 font-mono text-sm">
+            <span className="text-muted font-mono text-sm">
               #{route.number}
             </span>
             <ProtectionBadge protection={route.protection} />
           </div>
-          <h1 className="text-3xl font-bold">{route.name}</h1>
+          <h1 className="text-3xl font-extrabold">{route.name}</h1>
         </div>
         <div className="text-right flex-shrink-0">
           <GradeBadge grade={route.grade_yds} />
           {route.grade_french && (
-            <div className="text-xs text-stone-400 mt-1">
+            <div className="text-xs text-muted mt-1">
               ({route.grade_french})
             </div>
           )}
@@ -119,35 +119,35 @@ export default async function RoutePage({
       </div>
 
       {/* Route details */}
-      <div className="bg-white dark:bg-stone-800 rounded-xl border border-stone-200 dark:border-stone-700 p-5 mb-6">
+      <div className="bg-card rounded-2xl border border-card-border p-5 mb-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm mb-4">
           <div>
-            <div className="text-stone-400 text-xs uppercase tracking-wide">
+            <div className="text-muted text-xs uppercase tracking-wider font-semibold">
               Grade
             </div>
-            <div className="font-medium">{route.grade_yds || "Unknown"}</div>
+            <div className="font-bold mt-0.5">{route.grade_yds || "Unknown"}</div>
           </div>
           <div>
-            <div className="text-stone-400 text-xs uppercase tracking-wide">
+            <div className="text-muted text-xs uppercase tracking-wider font-semibold">
               Height
             </div>
-            <div className="font-medium">
+            <div className="font-bold mt-0.5">
               {route.height_ft ? `${route.height_ft} ft` : "Unknown"}
             </div>
           </div>
           <div>
-            <div className="text-stone-400 text-xs uppercase tracking-wide">
+            <div className="text-muted text-xs uppercase tracking-wider font-semibold">
               Protection
             </div>
-            <div className="font-medium capitalize">
+            <div className="font-bold capitalize mt-0.5">
               {route.protection || "Unknown"}
             </div>
           </div>
           <div>
-            <div className="text-stone-400 text-xs uppercase tracking-wide">
+            <div className="text-muted text-xs uppercase tracking-wider font-semibold">
               Rating
             </div>
-            <div className="font-medium">
+            <div className="font-bold mt-0.5 text-amber-600 dark:text-amber-400">
               {avgRating
                 ? `${"★".repeat(Math.round(avgRating))}${"☆".repeat(5 - Math.round(avgRating))} (${ratings.length})`
                 : "No ratings yet"}
@@ -157,7 +157,7 @@ export default async function RoutePage({
 
         {route.description && (
           <div>
-            <div className="text-stone-400 text-xs uppercase tracking-wide mb-1">
+            <div className="text-muted text-xs uppercase tracking-wider font-semibold mb-1">
               Description
             </div>
             <p className="text-sm leading-relaxed">{route.description}</p>
@@ -165,8 +165,8 @@ export default async function RoutePage({
         )}
 
         {route.first_ascent && (
-          <div className="mt-3 pt-3 border-t border-stone-100 dark:border-stone-700">
-            <span className="text-stone-400 text-xs">First Ascent: </span>
+          <div className="mt-3 pt-3 border-t border-card-border">
+            <span className="text-muted text-xs font-semibold">First Ascent: </span>
             <span className="text-sm">{route.first_ascent}</span>
           </div>
         )}

@@ -25,8 +25,8 @@ export default function TickButton({
 
   if (!userId) {
     return (
-      <div className="mb-8 p-4 bg-stone-100 dark:bg-stone-800 rounded-lg text-center text-sm text-stone-500">
-        <a href="/auth/login" className="text-red-600 font-medium hover:underline">
+      <div className="mb-8 p-4 bg-card rounded-lg text-center text-sm text-muted">
+        <a href="/auth/login" className="text-amber-600 font-medium hover:underline">
           Sign in
         </a>{" "}
         to log your ticks.
@@ -67,14 +67,14 @@ export default function TickButton({
       </div>
 
       {showForm && (
-        <div className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg p-4 mb-4">
+        <div className="bg-card border border-card-border rounded-2xl p-4 mb-4">
           <div className="grid grid-cols-2 gap-3 mb-3">
             <div>
-              <label className="text-xs text-stone-500 block mb-1">Style</label>
+              <label className="text-xs text-muted block mb-1">Style</label>
               <select
                 value={style}
                 onChange={(e) => setStyle(e.target.value)}
-                className="w-full px-2 py-1.5 rounded border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+                className="w-full px-2 py-1.5 rounded border border-card-border bg-card text-sm"
               >
                 <option value="lead">Lead</option>
                 <option value="toprope">Top Rope</option>
@@ -83,17 +83,17 @@ export default function TickButton({
               </select>
             </div>
             <div>
-              <label className="text-xs text-stone-500 block mb-1">Date</label>
+              <label className="text-xs text-muted block mb-1">Date</label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-2 py-1.5 rounded border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+                className="w-full px-2 py-1.5 rounded border border-card-border bg-card text-sm"
               />
             </div>
           </div>
           <div className="mb-3">
-            <label className="text-xs text-stone-500 block mb-1">
+            <label className="text-xs text-muted block mb-1">
               Notes (optional)
             </label>
             <input
@@ -101,7 +101,7 @@ export default function TickButton({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="How did it go?"
-              className="w-full px-2 py-1.5 rounded border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+              className="w-full px-2 py-1.5 rounded border border-card-border bg-card text-sm"
             />
           </div>
           <div className="flex gap-2">
@@ -114,7 +114,7 @@ export default function TickButton({
             </button>
             <button
               onClick={() => setShowForm(false)}
-              className="text-stone-500 hover:text-stone-700 text-sm"
+              className="text-muted hover:text-foreground text-sm"
             >
               Cancel
             </button>
@@ -131,11 +131,11 @@ export default function TickButton({
             >
               <div>
                 <span className="font-medium capitalize">{tick.style || "lead"}</span>
-                <span className="text-stone-400 ml-2">{tick.ticked_at}</span>
+                <span className="text-muted ml-2">{tick.ticked_at}</span>
               </div>
               <button
                 onClick={() => handleDelete(tick.id)}
-                className="text-stone-400 hover:text-red-500 text-xs transition"
+                className="text-muted hover:text-red-500 text-xs transition"
               >
                 Remove
               </button>
@@ -143,7 +143,7 @@ export default function TickButton({
           ))}
         </div>
       ) : (
-        <p className="text-sm text-stone-400">
+        <p className="text-sm text-muted">
           No ticks yet. Log your first send!
         </p>
       )}

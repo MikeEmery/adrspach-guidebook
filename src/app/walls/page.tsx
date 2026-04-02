@@ -16,8 +16,8 @@ export default async function WallsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">All Walls</h1>
-      <p className="text-stone-500 dark:text-stone-400 mb-8">
+      <h1 className="text-3xl font-extrabold mb-2">All Walls</h1>
+      <p className="text-muted mb-8 leading-relaxed">
         The guidebook reads from right to left. Alphabet Wall is the first wall
         you reach from the road entrance.
       </p>
@@ -29,14 +29,16 @@ export default async function WallsPage() {
             <Link
               key={wall.id}
               href={`/walls/${wall.slug}`}
-              className="block bg-white dark:bg-stone-800 rounded-xl shadow-sm border border-stone-200 dark:border-stone-700 p-5 hover:shadow-md hover:border-stone-300 dark:hover:border-stone-600 transition"
+              className="group block bg-card rounded-2xl shadow-sm border border-card-border p-5 hover:shadow-md hover:border-amber-300 dark:hover:border-amber-700 hover:-translate-y-0.5 transition-all duration-200"
             >
-              <h3 className="font-semibold text-lg">{wall.name}</h3>
-              <p className="text-sm text-stone-500 mt-1">
+              <h3 className="font-bold text-lg group-hover:text-amber-700 dark:group-hover:text-amber-400 transition">
+                {wall.name}
+              </h3>
+              <p className="text-sm text-muted mt-1">
                 {routeCount} route{routeCount !== 1 ? "s" : ""}
               </p>
               {wall.description && (
-                <p className="text-sm text-stone-500 dark:text-stone-400 mt-2 line-clamp-2">
+                <p className="text-sm text-muted mt-2 line-clamp-2">
                   {wall.description}
                 </p>
               )}

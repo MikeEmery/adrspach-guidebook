@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf9;
-  --foreground: #1c1917;
-  --accent: #dc2626;
-  --accent-light: #fecaca;
-  --trad-color: #eab308;
-  --sport-color: #ef4444;
-  --mixed-color: #f97316;
-  --tr-color: #a3a3a3;
+  --background: #fdf8f4;
+  --foreground: #2c1810;
+  --accent: #b45309;
+  --accent-light: #fef3c7;
+  --card: #ffffff;
+  --card-border: #e7ddd3;
+  --muted: #8c7a6b;
+  --trad-color: #ca8a04;
+  --sport-color: #dc2626;
+  --mixed-color: #ea580c;
+  --tr-color: #78716c;
 }
 
 @theme inline {
@@ -16,18 +19,24 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-accent-light: var(--accent-light);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --color-muted: var(--muted);
   --color-trad: var(--trad-color);
   --color-sport: var(--sport-color);
   --color-mixed: var(--mixed-color);
   --color-tr: var(--tr-color);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-nunito);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1c1917;
-    --foreground: #fafaf9;
+    --background: #1a1410;
+    --foreground: #f5ebe0;
+    --card: #261e17;
+    --card-border: #3d3128;
+    --muted: #a69585;
   }
 }
 

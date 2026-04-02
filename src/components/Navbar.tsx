@@ -28,37 +28,38 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-stone-900 text-white shadow-lg">
+    <nav className="sticky top-0 z-50 bg-[#2c1810] text-[#f5ebe0] shadow-lg">
       <div className="max-w-5xl mx-auto px-4 flex items-center justify-between h-14">
-        <Link href="/" className="font-bold text-lg tracking-tight">
+        <Link href="/" className="font-extrabold text-lg tracking-tight flex items-center gap-2">
+          <span className="text-amber-400">&#9650;</span>
           Little Adrspach
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden sm:flex items-center gap-6 text-sm">
-          <Link href="/walls" className="hover:text-stone-300 transition">
+        <div className="hidden sm:flex items-center gap-6 text-sm font-medium">
+          <Link href="/walls" className="hover:text-amber-300 transition">
             Walls
           </Link>
-          <Link href="/routes" className="hover:text-stone-300 transition">
+          <Link href="/routes" className="hover:text-amber-300 transition">
             All Routes
           </Link>
           {user ? (
             <>
               <Link
                 href="/profile"
-                className="hover:text-stone-300 transition"
+                className="hover:text-amber-300 transition"
               >
                 My Ticks
               </Link>
               <Link
                 href="/admin"
-                className="hover:text-stone-300 transition"
+                className="hover:text-amber-300 transition"
               >
                 Admin
               </Link>
               <button
                 onClick={handleSignOut}
-                className="hover:text-stone-300 transition"
+                className="hover:text-amber-300 transition"
               >
                 Sign Out
               </button>
@@ -66,7 +67,7 @@ export default function Navbar() {
           ) : (
             <Link
               href="/auth/login"
-              className="bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-md text-sm font-medium transition"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition"
             >
               Sign In
             </Link>
@@ -106,18 +107,18 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="sm:hidden border-t border-stone-700 px-4 py-3 flex flex-col gap-3 text-sm">
+        <div className="sm:hidden border-t border-[#3d3128] px-4 py-3 flex flex-col gap-3 text-sm font-medium">
           <Link
             href="/walls"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-stone-300"
+            className="hover:text-amber-300"
           >
             Walls
           </Link>
           <Link
             href="/routes"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-stone-300"
+            className="hover:text-amber-300"
           >
             All Routes
           </Link>
@@ -126,20 +127,20 @@ export default function Navbar() {
               <Link
                 href="/profile"
                 onClick={() => setMenuOpen(false)}
-                className="hover:text-stone-300"
+                className="hover:text-amber-300"
               >
                 My Ticks
               </Link>
               <Link
                 href="/admin"
                 onClick={() => setMenuOpen(false)}
-                className="hover:text-stone-300"
+                className="hover:text-amber-300"
               >
                 Admin
               </Link>
               <button
                 onClick={handleSignOut}
-                className="text-left hover:text-stone-300"
+                className="text-left hover:text-amber-300"
               >
                 Sign Out
               </button>
@@ -148,7 +149,7 @@ export default function Navbar() {
             <Link
               href="/auth/login"
               onClick={() => setMenuOpen(false)}
-              className="hover:text-stone-300"
+              className="hover:text-amber-300"
             >
               Sign In
             </Link>

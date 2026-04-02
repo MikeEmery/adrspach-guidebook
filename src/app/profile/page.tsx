@@ -46,21 +46,21 @@ export default async function ProfilePage() {
       <h1 className="text-3xl font-bold mb-2">
         {profile?.display_name || "Climber"}
       </h1>
-      <p className="text-stone-500 mb-8">{user.email}</p>
+      <p className="text-muted mb-8">{user.email}</p>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8 max-w-md">
-        <div className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg p-4 text-center">
+        <div className="bg-card border border-card-border rounded-2xl p-4 text-center">
           <div className="text-2xl font-bold">{totalTicks}</div>
-          <div className="text-xs text-stone-500 uppercase">Total Ticks</div>
+          <div className="text-xs text-muted uppercase">Total Ticks</div>
         </div>
-        <div className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg p-4 text-center">
+        <div className="bg-card border border-card-border rounded-2xl p-4 text-center">
           <div className="text-2xl font-bold">{uniqueRoutes}</div>
-          <div className="text-xs text-stone-500 uppercase">Unique Routes</div>
+          <div className="text-xs text-muted uppercase">Unique Routes</div>
         </div>
-        <div className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg p-4 text-center">
+        <div className="bg-card border border-card-border rounded-2xl p-4 text-center">
           <div className="text-2xl font-bold">{hardest || "—"}</div>
-          <div className="text-xs text-stone-500 uppercase">Hardest</div>
+          <div className="text-xs text-muted uppercase">Hardest</div>
         </div>
       </div>
 
@@ -79,23 +79,23 @@ export default async function ProfilePage() {
             return (
               <div
                 key={tick.id}
-                className="flex items-center justify-between bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg px-4 py-3"
+                className="flex items-center justify-between bg-card border border-card-border rounded-2xl px-4 py-3"
               >
                 <div className="flex items-center gap-3">
                   <GradeBadge grade={route?.grade_yds} />
                   <div>
                     <Link
                       href={`/routes/${route?.id}`}
-                      className="font-medium text-sm hover:text-red-600 transition"
+                      className="font-medium text-sm hover:text-amber-600 transition"
                     >
                       {route?.name}
                     </Link>
-                    <div className="text-xs text-stone-400">
+                    <div className="text-xs text-muted">
                       {route?.walls?.name}
                     </div>
                   </div>
                 </div>
-                <div className="text-right text-xs text-stone-400">
+                <div className="text-right text-xs text-muted">
                   <div className="capitalize font-medium">
                     {tick.style || "lead"}
                   </div>
@@ -106,7 +106,7 @@ export default async function ProfilePage() {
           })}
         </div>
       ) : (
-        <p className="text-stone-400 text-sm">
+        <p className="text-muted text-sm">
           No ticks yet. Start climbing and log your sends!
         </p>
       )}

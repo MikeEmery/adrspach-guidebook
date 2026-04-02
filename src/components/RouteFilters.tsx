@@ -112,12 +112,12 @@ export default function RouteFilters({
           placeholder="Search routes..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 px-3 py-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="flex-1 px-3 py-2 rounded-lg border border-card-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
         />
         <select
           value={wallFilter}
           onChange={(e) => setWallFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+          className="px-3 py-2 rounded-lg border border-card-border bg-card text-sm"
         >
           <option value="">All Walls</option>
           {walls.map((w) => (
@@ -129,7 +129,7 @@ export default function RouteFilters({
         <select
           value={protectionFilter}
           onChange={(e) => setProtectionFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+          className="px-3 py-2 rounded-lg border border-card-border bg-card text-sm"
         >
           <option value="">All Types</option>
           <option value="sport">Sport</option>
@@ -141,11 +141,11 @@ export default function RouteFilters({
 
       {/* Grade range */}
       <div className="flex gap-3 mb-6 items-center text-sm">
-        <span className="text-stone-500">Grade:</span>
+        <span className="text-muted">Grade:</span>
         <select
           value={minGrade}
           onChange={(e) => setMinGrade(e.target.value)}
-          className="px-2 py-1.5 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+          className="px-2 py-1.5 rounded-lg border border-card-border bg-card text-sm"
         >
           <option value="">Min</option>
           {GRADE_ORDER.map((g) => (
@@ -154,11 +154,11 @@ export default function RouteFilters({
             </option>
           ))}
         </select>
-        <span className="text-stone-400">to</span>
+        <span className="text-muted">to</span>
         <select
           value={maxGrade}
           onChange={(e) => setMaxGrade(e.target.value)}
-          className="px-2 py-1.5 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm"
+          className="px-2 py-1.5 rounded-lg border border-card-border bg-card text-sm"
         >
           <option value="">Max</option>
           {GRADE_ORDER.map((g) => (
@@ -167,40 +167,42 @@ export default function RouteFilters({
             </option>
           ))}
         </select>
-        <span className="text-stone-400 ml-2">
+        <span className="text-muted ml-2">
           {filtered.length} route{filtered.length !== 1 ? "s" : ""}
         </span>
       </div>
 
       {/* Results */}
-      <div className="overflow-x-auto">
+      <div className="bg-card border border-card-border rounded-2xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-stone-200 dark:border-stone-700 text-left text-stone-500">
-              <th className="py-2 pr-2 w-10">#</th>
-              <th className="py-2 pr-2">Name</th>
-              <th className="py-2 pr-2 hidden sm:table-cell">Wall</th>
-              <th className="py-2 pr-2 w-20">Grade</th>
-              <th className="py-2 w-16">Type</th>
+            <tr className="border-b border-card-border text-left text-muted text-xs uppercase tracking-wider">
+              <th className="py-3 pl-4 pr-2 w-10">#</th>
+              <th className="py-3 pr-2">Name</th>
+              <th className="py-3 pr-2 hidden sm:table-cell">Wall</th>
+              <th className="py-3 pr-2 w-20">Grade</th>
+              <th className="py-3 pr-4 w-16">Type</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((route) => (
+            {filtered.map((route, i) => (
               <tr
                 key={route.id}
-                className="border-b border-stone-100 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition"
+                className={`border-b border-card-border last:border-b-0 hover:bg-amber-50/50 dark:hover:bg-amber-900/10 transition ${
+                  i % 2 === 0 ? "" : "bg-black/[0.02] dark:bg-white/[0.02]"
+                }`}
               >
-                <td className="py-3 pr-2 text-stone-400 font-mono text-xs">
+                <td className="py-3 pl-4 pr-2 text-muted font-mono text-xs">
                   {route.number}
                 </td>
                 <td className="py-3 pr-2">
                   <Link
                     href={`/routes/${route.id}`}
-                    className="font-medium hover:text-red-600 transition"
+                    className="font-semibold text-amber-700 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 transition"
                   >
                     {route.name}
                   </Link>
-                  <span className="sm:hidden text-xs text-stone-400 ml-2">
+                  <span className="sm:hidden text-xs text-muted ml-2">
                     {route.walls?.name}
                   </span>
                 </td>
@@ -208,7 +210,7 @@ export default function RouteFilters({
                   {route.walls && (
                     <Link
                       href={`/walls/${route.walls.slug}`}
-                      className="text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 text-xs"
+                      className="text-muted hover:text-amber-700 dark:hover:text-amber-400 text-xs"
                     >
                       {route.walls.name}
                     </Link>
@@ -217,7 +219,7 @@ export default function RouteFilters({
                 <td className="py-3 pr-2">
                   <GradeBadge grade={route.grade_yds} />
                 </td>
-                <td className="py-3">
+                <td className="py-3 pr-4">
                   <ProtectionBadge protection={route.protection} />
                 </td>
               </tr>
@@ -225,7 +227,7 @@ export default function RouteFilters({
           </tbody>
         </table>
         {filtered.length === 0 && (
-          <p className="text-center text-stone-400 py-8">
+          <p className="text-center text-muted py-8">
             No routes match your filters.
           </p>
         )}
