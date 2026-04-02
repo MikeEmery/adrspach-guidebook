@@ -50,6 +50,12 @@ export default function Navbar() {
               >
                 My Ticks
               </Link>
+              <Link
+                href="/admin"
+                className="hover:text-stone-300 transition"
+              >
+                Admin
+              </Link>
               <button
                 onClick={handleSignOut}
                 className="hover:text-stone-300 transition"
@@ -123,6 +129,13 @@ export default function Navbar() {
                 className="hover:text-stone-300"
               >
                 My Ticks
+              </Link>
+              <Link
+                href="/admin"
+                onClick={() => setMenuOpen(false)}
+                className="hover:text-stone-300"
+              >
+                Admin
               </Link>
               <button
                 onClick={handleSignOut}

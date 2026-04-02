@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ProtectionBadge from "@/components/ProtectionBadge";
 import GradeBadge from "@/components/GradeBadge";
+import ImageGallery from "@/components/ImageGallery";
 
 export async function generateMetadata({
   params,
@@ -69,18 +70,21 @@ export default async function WallPage({
         </p>
       )}
 
-      {/* Topo images */}
+      {/* Topo image gallery */}
       {images && images.length > 0 && (
-        <div className="mb-8 flex flex-col gap-4">
-          {images.map((img) => (
-            <img
-              key={img.id}
-              src={img.image_url}
-              alt={`${wall.name} topo`}
-              className="rounded-lg w-full"
-            />
-          ))}
-        </div>
+        <ImageGallery
+          images={[...images]
+            .sort((a, b) => {
+              if (a.image_type === b.image_type) return a.sort_order - b.sort_order;
+              return a.image_type === "overview" ? -1 : 1;
+            })
+            .map((img) => ({
+              id: img.id,
+              url: img.image_url,
+              type: img.image_type,
+            }))}
+          wallName={wall.name}
+        />
       )}
 
       {/* Route table */}
@@ -107,9 +111,9 @@ export default async function WallPage({
                 <td className="py-3 pr-2">
                   <Link
                     href={`/routes/${route.id}`}
-                    className="font-medium hover:text-red-600 transition"
+                    className="font-medium text-red-600 dark:text-red-400 underline underline-offset-2 decoration-red-300 dark:decoration-red-700 hover:text-red-700 dark:hover:text-red-300 transition"
                   >
-                    {route.name}
+                    {route.name} &rsaquo;
                   </Link>
                   {route.description && (
                     <p className="text-xs text-stone-400 mt-0.5 line-clamp-1 sm:line-clamp-2">
