@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/client";
 export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
   const supabase = createClient();
 
   const handleOAuth = async (provider: "google" | "facebook") => {
@@ -24,6 +26,45 @@ export default function LoginPage() {
       setLoading(null);
     }
   };
+
+  const handleMagicLink = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading("email");
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setSent(true);
+    }
+    setLoading(null);
+  };
+
+  if (sent) {
+    return (
+      <div className="max-w-sm mx-auto px-4 py-16 text-center">
+        <div className="text-4xl mb-4">&#9993;&#65039;</div>
+        <h1 className="text-2xl font-bold mb-2">Check your email</h1>
+        <p className="text-muted text-sm mb-6">
+          We sent a magic link to <strong className="text-foreground">{email}</strong>.
+          Click the link in the email to sign in.
+        </p>
+        <button
+          onClick={() => setSent(false)}
+          className="text-sm text-amber-600 hover:underline"
+        >
+          Use a different method
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-sm mx-auto px-4 py-16">
@@ -75,6 +116,32 @@ export default function LoginPage() {
           </svg>
           {loading === "facebook" ? "Redirecting..." : "Continue with Facebook"}
         </button>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 my-1">
+          <div className="flex-1 h-px bg-card-border" />
+          <span className="text-xs text-muted">or</span>
+          <div className="flex-1 h-px bg-card-border" />
+        </div>
+
+        {/* Magic link */}
+        <form onSubmit={handleMagicLink} className="flex gap-2">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="you@example.com"
+            className="flex-1 px-3 py-2 rounded-lg border border-card-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+          />
+          <button
+            type="submit"
+            disabled={loading !== null}
+            className="bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-sm font-semibold transition whitespace-nowrap"
+          >
+            {loading === "email" ? "Sending..." : "Email me a link"}
+          </button>
+        </form>
       </div>
     </div>
   );
