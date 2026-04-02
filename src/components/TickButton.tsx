@@ -16,7 +16,8 @@ export default function TickButton({
   existingTicks: TickData[];
 }) {
   const [showForm, setShowForm] = useState(false);
-  const [style, setStyle] = useState("lead");
+  const [attempt, setAttempt] = useState("redpoint");
+  const [method, setMethod] = useState("lead");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
@@ -40,7 +41,7 @@ export default function TickButton({
       route_id: routeId,
       user_id: userId,
       ticked_at: date,
-      style,
+      style: `${attempt} (${method})`,
       notes: notes || null,
     });
     setSaving(false);
@@ -68,18 +69,28 @@ export default function TickButton({
 
       {showForm && (
         <div className="bg-card border border-card-border rounded-2xl p-4 mb-4">
-          <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="grid grid-cols-3 gap-3 mb-3">
             <div>
-              <label className="text-xs text-muted block mb-1">Style</label>
+              <label className="text-xs text-muted block mb-1">Attempt</label>
               <select
-                value={style}
-                onChange={(e) => setStyle(e.target.value)}
+                value={attempt}
+                onChange={(e) => setAttempt(e.target.value)}
+                className="w-full px-2 py-1.5 rounded border border-card-border bg-card text-sm"
+              >
+                <option value="redpoint">Redpoint</option>
+                <option value="flash">Flash</option>
+                <option value="onsight">Onsight</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs text-muted block mb-1">Method</label>
+              <select
+                value={method}
+                onChange={(e) => setMethod(e.target.value)}
                 className="w-full px-2 py-1.5 rounded border border-card-border bg-card text-sm"
               >
                 <option value="lead">Lead</option>
                 <option value="toprope">Top Rope</option>
-                <option value="flash">Flash</option>
-                <option value="onsight">Onsight</option>
               </select>
             </div>
             <div>

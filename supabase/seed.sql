@@ -4,7 +4,7 @@
 -- Walls (ordered right to left per guidebook)
 INSERT INTO public.walls (id, name, slug, sort_order, description) VALUES
   ('11111111-0000-0000-0000-000000000001', 'Alphabet Wall and the Great Chimney', 'alphabet-wall', 1, 'The first wall you encounter from the road entrance. Features a prominent chimney with several quality routes on both sides.'),
-  ('11111111-0000-0000-0000-000000000002', 'Main Wall', 'main-wall', 2, 'The largest and most developed wall at Little Adrspach. Home to many classic routes including the legendary Namaste.'),
+  ('11111111-0000-0000-0000-000000000002', 'Main Wall', 'main-wall', 2, 'The largest and most developed wall at Little Adrspach, featuring a variety of classic routes across its broad face.'),
   ('11111111-0000-0000-0000-000000000003', 'Water Wall', 'water-wall', 3, 'A shorter wall section near the stone bridge, featuring a few steep and challenging routes.'),
   ('11111111-0000-0000-0000-000000000004', 'Grotto', 'grotto', 4, 'A sheltered area featuring a prominent tower with quality routes on its overhanging face.'),
   ('11111111-0000-0000-0000-000000000005', 'Fortress Wall', 'fortress-wall', 5, 'A castle-like wall formation with a few excellent routes on its steep face.'),

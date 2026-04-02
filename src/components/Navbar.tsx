@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useEffect } from "react";
 import type { User } from "@supabase/supabase-js";
+import QuickTick from "./QuickTick";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,6 +57,7 @@ export default function Navbar() {
               >
                 Admin
               </Link>
+              <QuickTick />
               <button
                 onClick={handleSignOut}
                 className="hover:text-amber-300 transition"
@@ -74,10 +75,12 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile: quick tick + hamburger */}
+        <div className="sm:hidden flex items-center">
+          {user && <QuickTick />}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="sm:hidden p-2"
+          className="p-2"
           aria-label="Toggle menu"
         >
           <svg
@@ -103,6 +106,7 @@ export default function Navbar() {
             )}
           </svg>
         </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

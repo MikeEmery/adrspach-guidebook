@@ -5,6 +5,7 @@ import ProtectionBadge from "@/components/ProtectionBadge";
 import GradeBadge from "@/components/GradeBadge";
 import TickButton from "@/components/TickButton";
 import CommentSection from "@/components/CommentSection";
+import { ydsToFrench } from "@/lib/grade-convert";
 
 export async function generateMetadata({
   params,
@@ -110,9 +111,9 @@ export default async function RoutePage({
         </div>
         <div className="text-right flex-shrink-0">
           <GradeBadge grade={route.grade_yds} />
-          {route.grade_french && (
+          {ydsToFrench(route.grade_yds) && (
             <div className="text-xs text-muted mt-1">
-              ({route.grade_french})
+              ({ydsToFrench(route.grade_yds)})
             </div>
           )}
         </div>
