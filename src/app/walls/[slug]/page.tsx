@@ -5,6 +5,7 @@ import ProtectionBadge from "@/components/ProtectionBadge";
 import GradeBadge from "@/components/GradeBadge";
 import Breadcrumb from "@/components/Breadcrumb";
 import ImageGallery from "@/components/ImageGallery";
+import { sortByRouteNumber } from "@/lib/route-sort";
 
 export async function generateMetadata({
   params,
@@ -37,11 +38,12 @@ export default async function WallPage({
 
   if (!wall) notFound();
 
-  const { data: routes } = await supabase
+  const { data: routesData } = await supabase
     .from("routes")
     .select("*")
-    .eq("wall_id", wall.id)
-    .order("sort_order");
+    .eq("wall_id", wall.id);
+
+  const routes = sortByRouteNumber(routesData ?? []);
 
   const { data: images } = await supabase
     .from("wall_images")
@@ -105,7 +107,7 @@ export default async function WallPage({
             </tr>
           </thead>
           <tbody>
-            {routes?.map((route, i) => (
+            {routes.map((route, i) => (
               <tr
                 key={route.id}
                 className={`border-b border-card-border last:border-b-0 hover:bg-amber-50/50 dark:hover:bg-amber-900/10 transition ${

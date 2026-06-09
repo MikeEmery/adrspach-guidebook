@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import StarRating from "./StarRating";
+import { compareRouteNumbers } from "@/lib/route-sort";
 
 type RouteOption = {
   id: string;
@@ -38,13 +39,15 @@ export default function QuickTick() {
       .then(({ data }) => {
         if (data) {
           setRoutes(
-            data.map((r) => ({
-              id: r.id,
-              name: r.name,
-              number: r.number,
-              grade_yds: r.grade_yds,
-              wall_name: (r.walls as unknown as { name: string })?.name || "",
-            }))
+            data
+              .map((r) => ({
+                id: r.id,
+                name: r.name,
+                number: r.number,
+                grade_yds: r.grade_yds,
+                wall_name: (r.walls as unknown as { name: string })?.name || "",
+              }))
+              .sort((a, b) => compareRouteNumbers(a.number, b.number))
           );
         }
       });
