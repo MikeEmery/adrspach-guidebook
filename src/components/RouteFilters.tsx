@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import GradeBadge from "./GradeBadge";
 import ProtectionBadge from "./ProtectionBadge";
+import { compareRouteNumbers } from "@/lib/route-sort";
 
 type Route = {
   id: string;
@@ -75,32 +76,34 @@ export default function RouteFilters({
   const [maxGrade, setMaxGrade] = useState("");
 
   const filtered = useMemo(() => {
-    return routes.filter((r) => {
-      // Text search
-      if (search) {
-        const q = search.toLowerCase();
-        const matches =
-          r.name.toLowerCase().includes(q) ||
-          r.description?.toLowerCase().includes(q) ||
-          r.number.toLowerCase().includes(q);
-        if (!matches) return false;
-      }
-      // Wall filter
-      if (wallFilter && r.walls?.id !== wallFilter) return false;
-      // Protection filter
-      if (protectionFilter && r.protection !== protectionFilter) return false;
-      // Grade filter
-      const gi = gradeIndex(r.grade_yds);
-      if (minGrade) {
-        const minIdx = GRADE_ORDER.indexOf(minGrade);
-        if (gi >= 0 && gi < minIdx) return false;
-      }
-      if (maxGrade) {
-        const maxIdx = GRADE_ORDER.indexOf(maxGrade);
-        if (gi >= 0 && gi > maxIdx) return false;
-      }
-      return true;
-    });
+    return routes
+      .filter((r) => {
+        // Text search
+        if (search) {
+          const q = search.toLowerCase();
+          const matches =
+            r.name.toLowerCase().includes(q) ||
+            r.description?.toLowerCase().includes(q) ||
+            r.number.toLowerCase().includes(q);
+          if (!matches) return false;
+        }
+        // Wall filter
+        if (wallFilter && r.walls?.id !== wallFilter) return false;
+        // Protection filter
+        if (protectionFilter && r.protection !== protectionFilter) return false;
+        // Grade filter
+        const gi = gradeIndex(r.grade_yds);
+        if (minGrade) {
+          const minIdx = GRADE_ORDER.indexOf(minGrade);
+          if (gi >= 0 && gi < minIdx) return false;
+        }
+        if (maxGrade) {
+          const maxIdx = GRADE_ORDER.indexOf(maxGrade);
+          if (gi >= 0 && gi > maxIdx) return false;
+        }
+        return true;
+      })
+      .sort((a, b) => compareRouteNumbers(a.number, b.number));
   }, [routes, search, wallFilter, protectionFilter, minGrade, maxGrade]);
 
   return (
