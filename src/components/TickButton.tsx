@@ -21,8 +21,13 @@ export default function TickButton({
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
+  const [quickSaving, setQuickSaving] = useState(false);
+  const [quickError, setQuickError] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+
+  const today = new Date().toISOString().split("T")[0];
+  const tickedToday = existingTicks.some((t) => t.ticked_at === today);
 
   if (!userId) {
     return (
@@ -34,6 +39,20 @@ export default function TickButton({
       </div>
     );
   }
+
+  const handleQuickSend = async () => {
+    setQuickSaving(true);
+    setQuickError(false);
+    const { error } = await supabase.from("ticks").insert({
+      route_id: routeId,
+      user_id: userId,
+      ticked_at: today,
+      style: "redpoint (lead)",
+    });
+    setQuickSaving(false);
+    if (error) setQuickError(true);
+    else router.refresh();
+  };
 
   const handleTick = async () => {
     setSaving(true);
@@ -57,13 +76,33 @@ export default function TickButton({
 
   return (
     <div className="mb-8">
+      {/* One-tap send: the common case (redpoint, lead, today) in a single press */}
+      {tickedToday ? (
+        <div className="w-full mb-4 flex items-center justify-center gap-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 py-3 rounded-xl font-semibold">
+          <span aria-hidden>✓</span> Sent today
+        </div>
+      ) : (
+        <button
+          onClick={handleQuickSend}
+          disabled={quickSaving}
+          className="w-full mb-4 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white py-3 rounded-xl font-semibold text-base shadow-sm transition"
+        >
+          {quickSaving ? "Logging…" : "✓ Sent it today"}
+        </button>
+      )}
+      {quickError && (
+        <p className="text-sm text-red-500 mb-4 text-center">
+          Couldn&apos;t save — try again.
+        </p>
+      )}
+
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-semibold">Your Ticks</h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md text-sm font-medium transition"
+          className="text-sm text-muted hover:text-foreground font-medium transition"
         >
-          + Log Tick
+          {showForm ? "Cancel" : "Log with details"}
         </button>
       </div>
 
